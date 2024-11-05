@@ -1,0 +1,67 @@
+<!doctype html>
+<html lang="en">
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+		<title>reveal.js</title>
+		<link rel="stylesheet" href="dist/reset.css">
+		<link rel="stylesheet" href="dist/reveal.css">
+		<link rel="stylesheet" href="dist/theme/white.css">
+		<link rel="stylesheet" href="plugin/highlight/monokai.css">
+
+		<script src="dist/reveal.js"></script>
+		<script src="plugin/notes/notes.js"></script>
+		<script src="plugin/markdown/markdown.js"></script>
+		<script src="plugin/highlight/highlight.js"></script>
+		<script src="plugin/math/math.js"></script>
+
+		<link rel="stylesheet" href="https://pyscript.net/latest/pyscript.css">
+		<script defer src="https://pyscript.net/latest/pyscript.js"></script>
+
+	</head>
+	<body>
+		<py-config>
+			packages = ["numpy"]
+		  </py-config>
+
+
+		
+		<div class="reveal">
+			<div class="slides">
+				<section data-background-image="img/bg_robot.jpeg" style="color:white">
+					Hi
+				</section>
+
+				<section data-background-image="img/bg_top8.png">
+					In the next slide we'll do something cool
+				</section>
+
+				<section data-background-image="img/bg_top8.png">
+					<input type="text" id="inputField" placeholder="comma separated values">
+					<canvas id="myCanvas" width="1000" height="350" style="border:1px solid #000000; background-color: #cccccc;"></canvas>
+					<p id="outputText">$\begin{bmatrix}0.0 \\\end{bmatrix}$</p>
+					<!-- <input type="button" id="myButton" value="update"> -->
+					<py-script type="py" src="./mlpmain.py" config="pyscript.json" />
+				</section>
+
+
+
+				
+
+			</div>
+		</div>
+
+
+		<script>
+			// More info about initialization & config:
+			// - https://revealjs.com/initialization/
+			// - https://revealjs.com/config/
+			Reveal.initialize({
+				hash: true,
+
+				// Learn about plugins: https://revealjs.com/plugins/
+				plugins: [ RevealMarkdown, RevealHighlight, RevealNotes, RevealMath.KaTeX ]
+			});
+		</script>
+	</body>
+</html>
