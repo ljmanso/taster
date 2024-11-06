@@ -125,7 +125,7 @@ class NeuronDraw(object):
         self.x = self.layer_separation*(self.layer) + x_base
         self.y = self.unit_separation*(self.unit) + y_base
         if self.drawer.mlp.bias is True:
-            self.y -= self.unit_separation//2
+            self.y -= self.unit_separation//4
 
     def pos(self):
         return self.x, self.y
