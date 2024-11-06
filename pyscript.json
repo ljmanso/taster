@@ -1,4 +1,4 @@
 {
     "packages": ["numpy"],
-    "files": [ "mlp.py", "./mlpmain.py"]
+    "files": [ "mlpmain.py", "data1.csv"]
 }
