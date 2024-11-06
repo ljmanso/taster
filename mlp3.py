@@ -15,12 +15,12 @@ ctxNN3 = canvasNN3.getContext('2d')
 
 from mlpmain import MLP, MLPDraw, ClassificationOutput
 
-net3 = MLP([5, 8, 8, 1])
+net3 = MLP([5, 9, 8, 1])
 
 
 params = {
     "DISTANCE_TO_CONNECTION_THRESHOLD": 10,
-    "UNIT_SEPARATION": 57,
+    "UNIT_SEPARATION": 50,
     "LAYER_SEPARATION": 230,
     "VALUES_SEPARATION": 30
     }

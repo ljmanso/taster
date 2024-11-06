@@ -21,13 +21,11 @@
 	</head>
 	<body>
 		<py-config>
-			packages = ["numpy", "pandas"]
+			packages = ["numpy", "matplotlib", "cma"]
 			[[fetch]]
 			from = '.'
 			files = [ "./mlpmain.py", "./data1.csv" ]
 		</py-config>
-
-
 		
 		<div class="reveal">
 			<div class="slides">
@@ -38,38 +36,115 @@
 					<div style="text-align: left; margin: 0px auto; width: 100%; font-size: 0.8em;">Dr Luis J. Manso</div>
 				</section>
 
-				<section data-background-image="img/bg_top8.png">
-					AI Stuff
+				<section>  <!-- data-background-image="img/bg_top8.png" -->
+					<ul>
+						<li><strong>What is AI?</strong>
+							<ul>
+								<li class="fragment">Machines able to do things that only humans could (or advanced animals)</li>
+							</ul>
+						</li>
+						<li class="fragment"><strong>What is machine learning?</strong>
+							<ul>
+								<li class="fragment">Getting AIs to improve with experience</li>
+								<li class="fragment">Not all AIs learn! Any example<span style="color: #ff0000ff;"><strong>?</strong></span></li>
+							</ul>
+						</li>
+						<li class="fragment">What would be an example of a learning algorithm<span style="color: #ff0000ff;"><strong>?</strong></span></li>
+					</ul>
 				</section>
 
-				<section data-background-image="img/bg_top8.png">
-					<p>Can we estimate an OR function?</p>
+				<section>
+					<ul>
+					<li>K-nearest neighbours
+						<figure>
+							<img src="img/knn.gif" alt="K-nearest neighbours animation" width="70%" style="margin-bottom: 0px;" />
+							<figcaption style="font-size: 0.4em; margin-top: -0.2em;">CC BY-SA 4.0 (<a href="https://commons.wikimedia.org/wiki/File:KNN_decision_surface_animation.gif">https://commons.wikimedia.org/wiki/File:KNN_decision_surface_animation.gif</a>)</figcaption>
+						</figure>
+					</li>
+					<li class="fragment"><span style="color:#00CC00"><strong>&check;</strong></span> Extremely simple to understand!</li>
+					<li class="fragment"><span style="color:#CC0000"><strong>&cross;</strong></span> Mostly used for classification</li>
+					<li class="fragment"><span style="color:#CC0000"><strong>&cross;</strong></span> Does not scale well (data dimensions, samples)</li>
+					</ul>
+				</section>
+
+				<section>
+					<p style="color: #ffffff;" >.T</p>
+					<p class="fragment current-visible" style="position:absolute;top:0;" >The artificial neuron!</p>
+					<ul class="fragment current-visible" style="font-size: 0.8em; position:absolute;top:0;">
+						<li>Should we give credit to subject <em>X</em>?</li>
+						<li>Multiply inputs by a weight; add up; non-linearity</li>
+					</ul>
+				<p class="fragment current-visible" style="position:absolute;top:0;" >Can we learn an OR function?</p>
 					<canvas id="myNNCanvas1" width="550" height="350" style="border:1px solid #000000; background-color: #cccccc;"></canvas>
 					<canvas id="myDataCanvas1" width="350" height="350" style="border:1px solid #000000; background-color: #cccccc;"></canvas>
-					<p><input type="text" id="inputField1" width="550" placeholder="comma separated values"></p>
+					<p><input type="text" id="inputField1" width="550" placeholder="comma separated values" style="font-size: 0.5em;"></p>
 					<py-script type="py" src="./mlp1.py" />
 				</section>
 
-				<section data-background-image="img/bg_top8.png">
-					<p>Can we estimate an XOR function?</p>
+				<section>
+					<p>Can we learn an XOR function?</p>
 					<canvas id="myNNCanvas2" width="550" height="350" style="border:1px solid #000000; background-color: #cccccc;"></canvas>
 					<canvas id="myDataCanvas2" width="350" height="350" style="border:1px solid #000000; background-color: #cccccc;"></canvas>
-					<p><input type="text" id="inputField2" width="550" placeholder="comma separated values" > </p>
+					<p><input type="text" id="inputField2" width="550" placeholder="comma separated values" style="font-size: 0.5em;"> </p>
 					<py-script type="py" src="./mlp2.py" />
 				</section>
 
-				<section data-background-image="img/bg_top8.png">
+				<section>
 					<p>We can have much more complex architectures!</p>
 					<p><input type="hidden" id="inputField3" width="550" value="1,1,1,1,1"> </p>
 					<canvas id="myNNCanvas3" width="900" height="550" style="border:1px solid #000000; background-color: #cccccc;"></canvas>
 					<py-script type="py" src="./mlp3.py" />
 				</section>
 
+				<section style="padding: 0; width: 100% !important; left: 0 !important;" >
+					<p>Spiral dataset!</p>
+					<canvas id="myNNCanvas4" width="400" height="500" style="border:1px solid #000000; background-color: #cccccc;"></canvas>
+					<canvas id="myDataCanvas4" width="500" height="500" style="border:1px solid #000000; background-color: #cccccc;"></canvas>
+					<p><input type="hidden" id="inputField4" width="500" value="0,0"></p>
+					<button type="button" id="myButton4">Click Me!</button>
+					<py-script type="py" src="./mlp4.py" />
+					</section>
 
-				
+					<section>
+						<ul>
+							<li><span style="color:#CC0000"><strong>&cross;</strong></span>It didn't work very well!</li>
+							<li><span style="color: #CC0000ff;"><strong>&cross;</strong></span>It would probably converge to a good solution</li>
+							<li class="fragment"><span style="color:#00CC00"><strong>&check;</strong></span> Making the learning more efficient <span style="color:#00CC00"><strong>&#x21d2;</strong></span> DL</li>
+							<li class="fragment">But also, in Deep Learning, <strong>we learn how to...</strong></li>
+						</ul>
+					</section>
 
+					<section>
+						<ul>
+							<p>Need less data to train while improving accuracy</p>
+							<figure>
+								<img src="img/CNN.png" alt="CNN architecture" width="70%" style="margin-bottom: 0px;" />
+								<figcaption style="font-size: 0.4em; margin-top: -0.2em;">Diagram of a typical CNN architecture [<a href="https://en.wikipedia.org/wiki/Convolutional_neural_network#/media/File:Typical_cnn.png">CC BY-SA 4.0</a>]</figcaption>
+							</figure>
+						</ul>
+					</section>
+
+					<section>
+						<ul>
+							<p>Work with images, graphs, text and audio.</p>
+							<p style="font-size: 0.6em;">Applications including classification, regression, prediction and generation.</p>
+							<figure >
+								<img src="img/stuff.webp" alt="Applications" width="34%" style="margin-bottom: 0px;" />
+							</figure>
+						</ul>
+					</section>
+
+					<section>
+						<p>Generative AI</p>
+						<figure>
+							<img src="img/GenAI.png" alt="Théâtre D'opéra Spatial, by Jason Michael Allen" width="70%" style="margin-bottom: 0px;" />
+							<figcaption style="font-size: 0.37em; margin-top: -0.2em;">Théâtre D'opéra Spatial, by Jason Michael Allen [<a href="https://en.wikipedia.org/wiki/Th%C3%A9%C3%A2tre_D%27op%C3%A9ra_Spatial">public domain</a>]. Winner of Colorado State's annual fine art competition in 2022 for digital art.</figcaption>
+						</figure>
+
+					</section>
+		
 			</div>
-		</div>
+	</div>
 
 
 		<script>

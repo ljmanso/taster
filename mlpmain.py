@@ -11,7 +11,7 @@ UNIT_SEPARATION = 120
 LAYER_SEPARATION = 300
 VALUES_SEPARATION = 30
 
-MAX_WEIGHT = 1.
+MAX_WEIGHT = 5.
 
 def numpy_array_to_latex(matrix: np.ndarray) -> str:
     latex_matrix = "\\\\begin{bmatrix}"
@@ -95,10 +95,23 @@ class MLP(object):
         if self.bias:
             t = np.vstack((t, np.ones((1, 1))))
         t = np.matmul(self.matrices[-1], t) # linear
-        t[t<0] *= self.leak # ReLu activation
-        # t = 1./(1+np.exp(-t)) # Sigmoid activation
+        # t[t<0] *= self.leak # ReLu activation
+        t = 1./(1+np.exp(-t)) # Sigmoid activation
         return t
 
+    def params_to_list(self):
+        params = []
+        for m in self.matrices:
+            l = m.flatten().tolist()
+            params += l
+        return params
+
+    def set_params_from_list(self, l):
+        offset = 0
+        for m_idx in range(len(self.matrices)):
+            s = self.matrices[m_idx].size
+            self.matrices[m_idx] = (l[offset:offset+s]).reshape(self.matrices[m_idx].shape)
+            offset += s
 
 class NeuronDraw(object):
     def __init__(self, drawer, layer, unit, ctx, color="#99000088", params={}):
@@ -124,8 +137,9 @@ class NeuronDraw(object):
         y_base = (self.canvas_height - total_height) / 2
         self.x = self.layer_separation*(self.layer) + x_base
         self.y = self.unit_separation*(self.unit) + y_base
-        if self.drawer.mlp.bias is True:
-            self.y -= self.unit_separation//4
+        if layer > 0 and layer < len(drawer.mlp.matrices):
+            if drawer.mlp.bias is True:
+                self.y -= self.unit_separation//2
 
     def pos(self):
         return self.x, self.y
@@ -355,7 +369,7 @@ class MLPDraw(object):
 
 
 class ClassificationOutput(object):
-    def __init__(self, mlp, canvas, data, xrange=[-2, 1], yrange=[-2, 1]):
+    def __init__(self, mlp, canvas, data, xrange=[-2, 1], yrange=[-2, 1], notext=False, threshold=None):
         super().__init__()
         self.mlp = mlp
         self.canvas = canvas
@@ -363,6 +377,8 @@ class ClassificationOutput(object):
         self.xrange = xrange
         self.yrange = yrange
         self.data = np.array(data)
+        self.notext = notext
+        self.threshold = threshold
 
     def x2canvas(self, x):
         return (x-self.xrange[0]) / (self.xrange[1]-self.xrange[0]) * self.canvas.width
@@ -393,22 +409,28 @@ class ClassificationOutput(object):
             value = self.mlp.forward(np.expand_dims(data_point, axis=1))[0]
             self.ctx.beginPath()
             self.ctx.arc(x, y, 10, 0, 6.28)
+            if self.threshold is not None:
+                if value >= self.threshold:
+                    value = 1
+                else:
+                    value = 0
             self.ctx.fillStyle = rgbFromValue(value)
             self.ctx.strokeStyle = rgbFromValue(row[2])
             self.ctx.fill()
             self.ctx.stroke()
-            self.ctx.font = "16px arial"
-            self.ctx.textBaseline = "middle"
-            self.ctx.textAlign = "center"
-            
-            self.ctx.fillStyle = "#000000"
-            if value is not None:
-                values = str(value).replace("[", "").replace("]", "")
-                if len(values)>6:
-                    values = values[:6]
-                self.ctx.fillText(values, x-40, y)
-            self.ctx.fillStyle = "#000000"
-            self.ctx.fillText(str(data_point), x, y-35)
-            self.ctx.fillText(str(row[2]), x, y+35)
+
+            if self.notext is False:
+                self.ctx.font = "16px arial"
+                self.ctx.textBaseline = "middle"
+                self.ctx.textAlign = "center"
+                self.ctx.fillStyle = "#000000"
+                if value is not None:
+                    values = str(value).replace("[", "").replace("]", "")
+                    if len(values)>6:
+                        values = values[:6]
+                    self.ctx.fillText(values, x-40, y)
+                self.ctx.fillStyle = "#000000"
+                self.ctx.fillText(str(data_point), x, y-35)
+                self.ctx.fillText(str(row[2]), x, y+35)
 
 
